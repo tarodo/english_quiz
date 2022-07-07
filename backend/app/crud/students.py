@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
 
-from app.models import Student, StudentIn
+from app.models import Student, StudentIn, StudentUpdate
 
 
 def create(db: Session, payload: StudentIn) -> Student:
@@ -24,3 +24,8 @@ def read_by_tg_id(db: Session, tg_id: int) -> Student | None:
     student = select(Student).where(Student.tg_id == tg_id)
     student = db.exec(student).one_or_none()
     return student
+
+
+def update(db: Session, db_obj: Student, payload: StudentUpdate) -> Student:
+    """Update student's data"""
+    pass
