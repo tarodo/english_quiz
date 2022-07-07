@@ -1,6 +1,6 @@
-from sqlmodel import Session, select
+from sqlmodel import Session
 
-from app.models import StudentIn, Student
+from app.models import Student, StudentIn
 
 
 def create(db: Session, payload: StudentIn) -> Student:
