@@ -10,3 +10,11 @@ def create(db: Session, payload: StudentIn) -> Student:
     db.commit()
     db.refresh(student)
     return student
+
+
+def read_by_id(db: Session, student_id: int) -> Student | None:
+    pass
+
+
+def read_by_tg_id(db: Session, tg_id: int) -> Student | None:
+    pass
