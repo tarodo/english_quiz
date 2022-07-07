@@ -8,3 +8,7 @@ def random_lower_string(str_len: int = 32) -> str:
 
 def random_email() -> str:
     return f"{random_lower_string()}@{random_lower_string(8)}.com"
+
+
+def random_tg() -> str:
+    return f"{random.randint(1000, 1000000)}"

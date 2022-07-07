@@ -4,9 +4,9 @@ from sqlmodel import Field, SQLModel
 class StudentBase(SQLModel):
     tg_id: str = Field(index=True, nullable=False, sa_column_kwargs={"unique": True})
     is_active: bool = Field(default=True, nullable=False)
-    first_name: str = Field(nullable=True)
-    last_name: str = Field(nullable=True)
-    username: str = Field(nullable=True)
+    first_name: str = Field(nullable=True, default=None)
+    last_name: str = Field(nullable=True, default=None)
+    username: str = Field(nullable=True, default=None)
 
 
 class Student(StudentBase, table=True):
