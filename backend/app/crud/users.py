@@ -1,8 +1,7 @@
-from fastapi.encoders import jsonable_encoder
-from sqlmodel import Session, select
-
 from app.core.security import get_password_hash, verify_password
 from app.models import User, UserIn, UserUpdate
+from fastapi.encoders import jsonable_encoder
+from sqlmodel import Session, select
 
 
 def read_by_email(db: Session, email: str) -> User | None:

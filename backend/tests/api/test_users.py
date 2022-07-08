@@ -1,12 +1,11 @@
-from fastapi.testclient import TestClient
-from sqlmodel import Session
-
 from app.api.deps import DepsErrors
 from app.api.users import UsersErrors
 from app.core.config import settings
 from app.crud import users
 from app.models import UserIn
-from tests.utils.users import user_authentication_headers
+from fastapi.testclient import TestClient
+from sqlmodel import Session
+from tests.utils.users import get_user_authentication_headers
 from tests.utils.utils import random_email, random_lower_string
 
 
@@ -38,7 +37,9 @@ def test_nonexistent_user(client: TestClient, db: Session) -> None:
     user_in = UserIn(email=email, password=password)
     user = users.create(db, payload=user_in)
 
-    headers = user_authentication_headers(client=client, email=email, password=password)
+    headers = get_user_authentication_headers(
+        client=client, email=email, password=password
+    )
     users.remove(db, user)
 
     r = client.get(f"/users/me", headers=headers)

@@ -1,6 +1,8 @@
 import random
 import string
 
+from app.models import StudentIn
+
 
 def random_lower_string(str_len: int = 32) -> str:
     return "".join(random.choices(string.ascii_lowercase, k=str_len))

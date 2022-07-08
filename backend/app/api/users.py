@@ -1,12 +1,11 @@
 from enum import Enum
 
-from fastapi import APIRouter, Depends
-from sqlmodel import Session
-
 from app.api import deps
 from app.api.tools import raise_400
 from app.crud import users
 from app.models import User, UserIn, UserOut, responses
+from fastapi import APIRouter, Depends
+from sqlmodel import Session
 
 router = APIRouter()
 

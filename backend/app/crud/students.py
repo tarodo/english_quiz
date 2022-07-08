@@ -1,7 +1,6 @@
+from app.models import Student, StudentIn, StudentUpdate
 from fastapi.encoders import jsonable_encoder
 from sqlmodel import Session, select
-
-from app.models import Student, StudentIn, StudentUpdate
 
 
 def create(db: Session, payload: StudentIn) -> Student:

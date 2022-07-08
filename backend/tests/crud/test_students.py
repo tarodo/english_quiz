@@ -1,21 +1,10 @@
 import pytest
+from app.crud import students
+from app.models import StudentIn, StudentUpdate
 from fastapi.encoders import jsonable_encoder
 from pydantic.error_wrappers import ValidationError
 from sqlmodel import Session
-
-from app.crud import students
-from app.models import StudentIn, StudentUpdate
-from tests.utils.utils import random_lower_string, random_tg
-
-
-def get_student_in() -> StudentIn:
-    tg_id = random_tg()
-    first_name = random_lower_string()
-    last_name = random_lower_string()
-    username = random_lower_string()
-    return StudentIn(
-        tg_id=tg_id, first_name=first_name, last_name=last_name, username=username
-    )
+from tests.utils.students import get_student_in
 
 
 def test_student_create(db: Session) -> None:

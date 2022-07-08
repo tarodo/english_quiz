@@ -1,8 +1,7 @@
 from enum import Enum
 
-from fastapi import HTTPException
-
 from app.models.tools import Message
+from fastapi import HTTPException
 
 
 def raise_400(err: Enum) -> None:

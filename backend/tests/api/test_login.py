@@ -1,9 +1,8 @@
-from sqlmodel import Session
-from starlette.testclient import TestClient
-
 from app.api.login import LoginErrors
 from app.crud import users
 from app.models import UserIn
+from sqlmodel import Session
+from starlette.testclient import TestClient
 from tests.utils.utils import random_email, random_lower_string
 
 

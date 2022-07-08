@@ -2,16 +2,15 @@ from datetime import timedelta
 from enum import Enum
 from typing import Any
 
-from fastapi import APIRouter, Depends
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlmodel import Session
-
 from app.api import deps
 from app.api.tools import raise_400
 from app.core import security
 from app.core.config import settings
 from app.crud import users
 from app.models.token import Token
+from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordRequestForm
+from sqlmodel import Session
 
 
 class LoginErrors(Enum):

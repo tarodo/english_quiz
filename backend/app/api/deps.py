@@ -1,18 +1,17 @@
 from enum import Enum
 from typing import Generator
 
-from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer
-from jose import jwt
-from pydantic import ValidationError
-from sqlmodel import Session
-
 from app.api.tools import raise_400
 from app.core.config import settings
 from app.crud import users
 from app.db import session
 from app.models import User
 from app.models.token import TokenPayload
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
+from jose import jwt
+from pydantic import ValidationError
+from sqlmodel import Session
 
 
 class DepsErrors(Enum):
