@@ -48,13 +48,13 @@ def test_nonexistent_user(client: TestClient, db: Session) -> None:
     assert current_user["detail"]["err"] == str(DepsErrors.UserNotFound)
 
 
-def test_create_user_new_email(
-    client: TestClient, user_token_headers: dict[str, str], db: Session
+def test_create_user_new_email_admin(
+    client: TestClient, superuser_token_headers: dict[str, str], db: Session
 ) -> None:
     email = random_email()
     password = random_lower_string()
     data = {"email": email, "password": password}
-    r = client.post(f"/users/", headers=user_token_headers, json=data)
+    r = client.post(f"/users/", headers=superuser_token_headers, json=data)
     assert 200 <= r.status_code < 300
     created_user = r.json()
     user = users.read_by_email(db, email=email)
@@ -62,15 +62,27 @@ def test_create_user_new_email(
     assert user.email == created_user["email"]
 
 
-def test_create_user_existing_email(
+def test_create_user_new_email_not_admin(
     client: TestClient, user_token_headers: dict[str, str], db: Session
+) -> None:
+    email = random_email()
+    password = random_lower_string()
+    data = {"email": email, "password": password}
+    r = client.post(f"/users/", headers=user_token_headers, json=data)
+    created_user = r.json()
+    assert 400
+    assert created_user["detail"]["err"] == str(UsersErrors.UserIsNotAdmin)
+
+
+def test_create_user_existing_email(
+    client: TestClient, superuser_token_headers: dict[str, str], db: Session
 ) -> None:
     email = random_email()
     password = random_lower_string()
     user_in = UserIn(email=email, password=password)
     users.create(db, payload=user_in)
     data = {"email": email, "password": password}
-    r = client.post(f"/users/", headers=user_token_headers, json=data)
+    r = client.post(f"/users/", headers=superuser_token_headers, json=data)
     created_user = r.json()
     assert r.status_code == 400
     assert created_user["detail"]["err"] == str(UsersErrors.UserWithEmailExists)
