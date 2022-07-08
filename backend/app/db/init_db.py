@@ -10,6 +10,6 @@ def init_db(db: Session) -> None:
         user_in = UserIn(
             email=settings.FIRST_SUPERUSER,
             password=settings.FIRST_SUPERUSER_PASSWORD,
-            is_superuser=True,
+            is_admin=True,
         )
         user = users.create(db, payload=user_in)
