@@ -63,3 +63,12 @@ def test_student_update(db: Session) -> None:
     assert student_update.first_name == student.first_name
     assert student_update.last_name == student.last_name
     assert student_update.username == student.username
+
+
+def test_student_remove(db: Session) -> None:
+    student_in = get_student_in()
+    student = students.create(db, student_in)
+    student_remove = students.remove(db, student)
+    student_test = students.read_by_id(db, student.id)
+    assert not student_test
+    assert student_remove == student
