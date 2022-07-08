@@ -3,6 +3,8 @@ Training English
 
 ## backend/.env
 - DB_URL - str, url for db. For example, `sqlite:///db.db`
+- FIRST_SUPERUSER - str, admin email
+- FIRST_SUPERUSER_PASSWORD - str, admin password
 
 ## db/.env
 - POSTGRES_USER - str, db admin user
@@ -13,4 +15,3 @@ Training English
 
 ## Docker-compose run
 1. `docker-compose up --build`
-2. `docker-compose exec quiz-back alembic upgrade head`
