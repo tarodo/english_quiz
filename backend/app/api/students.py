@@ -9,6 +9,7 @@ from sqlmodel import Session
 
 router = APIRouter()
 
+
 class StudentErrors(Enum):
     UserIsNotAdmin = "User is not an admin"
     StudentExists = "Student with tg_id exists"
