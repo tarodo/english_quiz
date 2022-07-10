@@ -1,4 +1,6 @@
 import pytest
+
+from app.api.tags import TagErrors
 from app.crud import students, tags
 from app.models import Student, TagIn
 from fastapi.testclient import TestClient
@@ -25,7 +27,7 @@ def test_create_tag_by_admin(
     r = client.post(f"/tags/", headers=superuser_token_headers, json=data)
     assert 200 <= r.status_code < 300
     created_tag = r.json()
-    tag = tags.read_by_name(db, tag_name=tag_in.name)
+    tag = tags.read_by_name_and_id(db, tag_name=tag_in.name, student_id=tag_in.student_id)
     assert tag
     assert tag.name == created_tag["name"]
 
@@ -41,6 +43,21 @@ def test_create_tag_by_user(
     r = client.post(f"/tags/", headers=user_token_headers, json=data)
     assert 200 <= r.status_code < 300
     created_tag = r.json()
-    tag = tags.read_by_name(db, tag_name=tag_in.name)
+    tag = tags.read_by_name_and_id(db, tag_name=tag_in.name, student_id=tag_in.student_id)
     assert tag
     assert tag.name == created_tag["name"]
+
+
+def test_create_tag_same(
+    client: TestClient,
+    user_token_headers: dict[str, str],
+    db: Session,
+    tags_student: Student,
+) -> None:
+    tag_in = TagIn(name=random_lower_string(10), student_id=tags_student.id)
+    tag = tags.create(db, payload=tag_in)
+    data = tag_in.dict()
+    r = client.post(f"/tags/", headers=user_token_headers, json=data)
+    assert r.status_code == 400
+    created_tag = r.json()
+    assert created_tag["detail"]["err"] == str(TagErrors.TagExists)

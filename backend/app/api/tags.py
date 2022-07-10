@@ -21,7 +21,7 @@ def create_tag(
     db: Session = Depends(deps.get_db),
 ) -> Tag:
     """Create one tag"""
-    old_tag = tags.read_by_name(db, payload.name)
+    old_tag = tags.read_by_name_and_id(db, payload.name, student_id=payload.student_id)
     if old_tag:
         raise_400(TagErrors.TagExists)
 

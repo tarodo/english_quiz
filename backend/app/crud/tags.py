@@ -22,8 +22,8 @@ def read_by_id(db: Session, tag_id: int) -> Tag | None:
     return tag
 
 
-def read_by_name(db: Session, tag_name: str) -> Tag | None:
-    """Read one student by tg_id"""
-    tag = select(Tag).where(Tag.name == tag_name)
+def read_by_name_and_id(db: Session, tag_name: str, student_id: int) -> Tag | None:
+    """Read one tag by name and student_id"""
+    tag = select(Tag).where(Tag.name == tag_name, Tag.student_id == student_id)
     tag = db.exec(tag).one_or_none()
     return tag
