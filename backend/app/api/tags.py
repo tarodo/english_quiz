@@ -17,7 +17,7 @@ class TagErrors(Enum):
 @router.post("/", response_model=TagOut, status_code=200, responses=responses)
 def create_tag(
     payload: TagIn,
-    _: User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     db: Session = Depends(deps.get_db),
 ) -> Tag:
     """Create one tag"""

@@ -1,5 +1,7 @@
 from pydantic import constr
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, SQLModel, Relationship
+
+from app import models
 
 
 class StudentBase(SQLModel):
@@ -14,6 +16,8 @@ class StudentBase(SQLModel):
 
 class Student(StudentBase, table=True):
     id: int = Field(primary_key=True)
+
+    tags: list["models.tags.Tag"] | None = Relationship(back_populates="student")
 
 
 class StudentIn(StudentBase):
