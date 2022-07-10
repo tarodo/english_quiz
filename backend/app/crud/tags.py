@@ -1,15 +1,18 @@
-from app.crud import students
 from app.models import Tag, TagIn
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session, select
 
 
 def create(db: Session, payload: TagIn) -> Tag:
     """Create a tag"""
     tag = Tag(**payload.dict())
-    db.add(tag)
-    db.commit()
-    db.refresh(tag)
-    return tag
+    try:
+        db.add(tag)
+        db.commit()
+        db.refresh(tag)
+        return tag
+    except IntegrityError:
+        db.rollback()
 
 
 def read_by_id(db: Session, tag_id: int) -> Tag | None:

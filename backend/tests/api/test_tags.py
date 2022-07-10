@@ -1,10 +1,8 @@
 import pytest
-
-from app.crud import tags, students
+from app.crud import students, tags
+from app.models import Student, TagIn
 from fastapi.testclient import TestClient
 from sqlmodel import Session
-
-from app.models import TagIn, Student
 from tests.utils.students import get_student_in
 from tests.utils.utils import random_lower_string
 
@@ -17,8 +15,10 @@ def tags_student(db: Session) -> Student:
 
 
 def test_create_tag_by_admin(
-    client: TestClient, superuser_token_headers: dict[str, str], db: Session,
-    tags_student: Student
+    client: TestClient,
+    superuser_token_headers: dict[str, str],
+    db: Session,
+    tags_student: Student,
 ) -> None:
     tag_in = TagIn(name=random_lower_string(10), student_id=tags_student.id)
     data = tag_in.dict()
@@ -31,8 +31,10 @@ def test_create_tag_by_admin(
 
 
 def test_create_tag_by_user(
-    client: TestClient, user_token_headers: dict[str, str], db: Session,
-    tags_student: Student
+    client: TestClient,
+    user_token_headers: dict[str, str],
+    db: Session,
+    tags_student: Student,
 ) -> None:
     tag_in = TagIn(name=random_lower_string(10), student_id=tags_student.id)
     data = tag_in.dict()

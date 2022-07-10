@@ -3,7 +3,7 @@ from enum import Enum
 from app.api import deps
 from app.api.tools import raise_400
 from app.crud import students
-from app.models import StudentIn, StudentOut, User, responses, Student
+from app.models import Student, StudentIn, StudentOut, User, responses
 from fastapi import APIRouter, Depends
 from sqlmodel import Session
 

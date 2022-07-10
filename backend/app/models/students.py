@@ -1,7 +1,6 @@
-from pydantic import constr
-from sqlmodel import Field, SQLModel, Relationship
-
 from app import models
+from pydantic import constr
+from sqlmodel import Field, Relationship, SQLModel
 
 
 class StudentBase(SQLModel):

@@ -1,13 +1,12 @@
-from pydantic import constr
-from sqlmodel import Field, SQLModel, Relationship
-
 from app.models import Student
+from pydantic import constr
+from sqlalchemy import UniqueConstraint
+from sqlmodel import Field, Relationship, SQLModel
 
 
 class TagBase(SQLModel):
-    name: constr(min_length=1, max_length=200) = Field(
-        index=True, nullable=False
-    )
+    __table_args__ = (UniqueConstraint("name", "student_id"),)
+    name: constr(min_length=1, max_length=200) = Field(index=True, nullable=False)
     student_id: int = Field(foreign_key="student.id")
 
 

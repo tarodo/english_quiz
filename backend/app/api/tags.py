@@ -3,7 +3,7 @@ from enum import Enum
 from app.api import deps
 from app.api.tools import raise_400
 from app.crud import tags
-from app.models import User, responses, TagOut, TagIn, Tag
+from app.models import Tag, TagIn, TagOut, User, responses
 from fastapi import APIRouter, Depends
 from sqlmodel import Session
 
