@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session, select
 
 
-def create(db: Session, payload: TagIn) -> Tag:
+def create(db: Session, payload: TagIn) -> Tag | None:
     """Create a tag"""
     tag = Tag(**payload.dict())
     try:

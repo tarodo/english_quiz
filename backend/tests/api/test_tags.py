@@ -61,3 +61,33 @@ def test_create_tag_same(
     assert r.status_code == 400
     created_tag = r.json()
     assert created_tag["detail"]["err"] == str(TagErrors.TagExists)
+
+
+def test_read_tag_by_admin(
+    client: TestClient,
+    superuser_token_headers: dict[str, str],
+    db: Session,
+    tags_student: Student,
+) -> None:
+    tag_in = TagIn(name=random_lower_string(10), student_id=tags_student.id)
+    tag = tags.create(db, payload=tag_in)
+    r = client.get(f"/tags/{tag.id}", headers=superuser_token_headers)
+    assert r.status_code == 200
+    retrieved_tag = r.json()
+    assert tag.id == retrieved_tag["id"]
+    assert tag.name == retrieved_tag["name"]
+    assert tag.student_id == retrieved_tag["student_id"]
+
+
+def test_read_tag_user(
+    client: TestClient,
+    user_token_headers: dict[str, str],
+    db: Session,
+    tags_student: Student,
+) -> None:
+    tag_in = TagIn(name=random_lower_string(10), student_id=tags_student.id)
+    tag = tags.create(db, payload=tag_in)
+    r = client.get(f"/tags/{tag.id}", headers=user_token_headers)
+    assert r.status_code == 400
+    created_tag = r.json()
+    assert created_tag["detail"]["err"] == str(TagErrors.UserIsNotAdmin)

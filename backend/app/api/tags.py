@@ -12,6 +12,7 @@ router = APIRouter()
 
 class TagErrors(Enum):
     TagExists = "Tag exists"
+    UserIsNotAdmin = "User is not an admin"
 
 
 @router.post("/", response_model=TagOut, status_code=200, responses=responses)
@@ -26,4 +27,18 @@ def create_tag(
         raise_400(TagErrors.TagExists)
 
     tag = tags.create(db, payload)
+    return tag
+
+
+@router.get("/{tag_id}", response_model=TagOut, status_code=200, responses=responses)
+def read_tags(
+    tag_id: int,
+    current_user: User = Depends(deps.get_current_user),
+    db: Session = Depends(deps.get_db),
+) -> Tag | None:
+    """Retrieve a tag"""
+    if not current_user.is_admin:
+        raise_400(TagErrors.UserIsNotAdmin)
+
+    tag = tags.read_by_id(db, tag_id)
     return tag
