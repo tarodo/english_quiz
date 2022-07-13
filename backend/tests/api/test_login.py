@@ -47,3 +47,16 @@ def test_get_token_by_bot(
     assert token["access_token"]
     assert "token_type" in token
     assert token["token_type"] == "bearer"
+
+
+def test_get_token_by_admin(
+    client: TestClient, db: Session, superuser_token_headers: dict[str, str]
+) -> None:
+    student = create_random_student(db)
+    data = BotLoginPayload(tg_id=student.tg_id).dict()
+    r = client.post(
+        "/login/access-token-bot", headers=superuser_token_headers, json=data
+    )
+    token = r.json()
+    assert r.status_code == 400
+    assert token["detail"]["err"] == str(LoginErrors.UserIsNotBot)
