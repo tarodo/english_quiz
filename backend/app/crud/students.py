@@ -26,6 +26,13 @@ def read_by_tg_id(db: Session, tg_id: str) -> Student | None:
     return student
 
 
+def read_by_user_id(db: Session, user_id: int) -> Student | None:
+    """Read one student by User ID"""
+    student = select(Student).where(Student.user_id == user_id)
+    student = db.exec(student).one_or_none()
+    return student
+
+
 def update(db: Session, db_obj: Student, payload: StudentUpdate) -> Student:
     """Update student's data"""
     obj_data = jsonable_encoder(db_obj)

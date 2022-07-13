@@ -1,18 +1,17 @@
 import pytest
 
 from app.api.tags import TagErrors
-from app.crud import students, tags
+from app.crud import tags
 from app.models import Student, TagIn
 from fastapi.testclient import TestClient
 from sqlmodel import Session
-from tests.utils.students import get_student_in
+from tests.utils.students import create_random_student
 from tests.utils.utils import random_lower_string
 
 
 @pytest.fixture(scope="module")
 def tags_student(db: Session) -> Student:
-    student_in = get_student_in()
-    student = students.create(db, payload=student_in)
+    student = create_random_student(db)
     return student
 
 

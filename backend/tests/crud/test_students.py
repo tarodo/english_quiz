@@ -4,11 +4,13 @@ from app.models import StudentIn, StudentUpdate
 from fastapi.encoders import jsonable_encoder
 from pydantic.error_wrappers import ValidationError
 from sqlmodel import Session
-from tests.utils.students import get_student_in
+from tests.utils.students import get_student_in, create_random_student
+from tests.utils.users import create_random_user
 
 
 def test_student_create(db: Session) -> None:
-    student_in = get_student_in()
+    user = create_random_user(db)
+    student_in = get_student_in(user.id)
     student = students.create(db, payload=student_in)
     assert student.tg_id == student_in.tg_id
     assert student.is_active
@@ -24,25 +26,23 @@ def test_student_create_with_empty_tg(db: Session) -> None:
 
 
 def test_student_read_by_id(db: Session) -> None:
-    student_in = get_student_in()
-    student = students.create(db, student_in)
+    student = create_random_student(db)
     student_test = students.read_by_id(db, student.id)
     assert student_test
     assert jsonable_encoder(student) == jsonable_encoder(student_test)
 
 
 def test_student_read_by_tg_id(db: Session) -> None:
-    student_in = get_student_in()
-    student = students.create(db, student_in)
+    student = create_random_student(db)
     student_test = students.read_by_tg_id(db, student.tg_id)
     assert student_test
     assert jsonable_encoder(student) == jsonable_encoder(student_test)
 
 
 def test_student_update(db: Session) -> None:
-    student_in = get_student_in()
-    student = students.create(db, student_in)
-    student_in_update = get_student_in()
+    student = create_random_student(db)
+    new_user = create_random_user(db)
+    student_in_update = get_student_in(new_user.id)
     student_in_update = StudentUpdate(**student_in_update.dict())
     student_in_update.is_active = False
     student_update = students.update(db, student, student_in_update)
@@ -55,8 +55,7 @@ def test_student_update(db: Session) -> None:
 
 
 def test_student_remove(db: Session) -> None:
-    student_in = get_student_in()
-    student = students.create(db, student_in)
+    student = create_random_student(db)
     student_remove = students.remove(db, student)
     student_test = students.read_by_id(db, student.id)
     assert not student_test
