@@ -38,7 +38,9 @@ def create_student(
     return student
 
 
-@router.get("/{student_id}", response_model=StudentOut, status_code=200, responses=responses)
+@router.get(
+    "/{student_id}", response_model=StudentOut, status_code=200, responses=responses
+)
 def read_student(
     student_id: int,
     current_user: User = Depends(deps.get_current_user),

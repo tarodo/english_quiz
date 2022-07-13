@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 from main import app
 from sqlmodel import Session
 from tests.utils.users import (get_authentication_token_from_email,
+                               get_bot_father_token_headers,
                                get_superuser_token_headers)
 
 
@@ -31,3 +32,8 @@ def user_token_headers(client: TestClient, db: Session) -> Dict[str, str]:
 @pytest.fixture(scope="module")
 def superuser_token_headers(client: TestClient) -> Dict[str, str]:
     return get_superuser_token_headers(client)
+
+
+@pytest.fixture(scope="module")
+def bot_father_token_headers(client: TestClient) -> Dict[str, str]:
+    return get_bot_father_token_headers(client)

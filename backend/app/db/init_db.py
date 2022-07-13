@@ -13,3 +13,11 @@ def init_db(db: Session) -> None:
             is_admin=True,
         )
         user = users.create(db, payload=user_in)
+
+        user_in = UserIn(
+            email=settings.BOT_FATHER,
+            password=settings.BOT_FATHER_PASSWORD,
+            is_admin=True,
+            is_bot=True,
+        )
+        user = users.create(db, payload=user_in)

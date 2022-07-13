@@ -1,7 +1,6 @@
+from app.models.users import User
 from pydantic import constr
 from sqlmodel import Field, Relationship, SQLModel
-
-from app.models.users import User
 
 
 class StudentBase(SQLModel):

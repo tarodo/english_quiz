@@ -15,6 +15,8 @@ class Settings(BaseSettings):
 
     FIRST_SUPERUSER: str
     FIRST_SUPERUSER_PASSWORD: str
+    BOT_FATHER: str
+    BOT_FATHER_PASSWORD: str
 
     EMAIL_TEST_USER: str = "test@test.com"
 

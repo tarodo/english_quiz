@@ -12,3 +12,4 @@ pytest-cov==3.0.0
 python-multipart==0.0.5
 psycopg2-binary
 tenacity==8.0.1
+SQLAlchemy==1.4.35

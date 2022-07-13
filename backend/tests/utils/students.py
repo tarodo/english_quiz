@@ -1,7 +1,6 @@
-from sqlmodel import Session
-
 from app.crud import students
-from app.models import StudentIn, Student
+from app.models import Student, StudentIn
+from sqlmodel import Session
 from tests.utils.users import create_random_user
 from tests.utils.utils import random_lower_string, random_tg
 
@@ -19,5 +18,9 @@ def get_student_in(user_id: int) -> StudentIn:
     last_name = random_lower_string()
     username = random_lower_string()
     return StudentIn(
-        tg_id=tg_id, first_name=first_name, last_name=last_name, username=username, user_id=user_id
+        tg_id=tg_id,
+        first_name=first_name,
+        last_name=last_name,
+        username=username,
+        user_id=user_id,
     )

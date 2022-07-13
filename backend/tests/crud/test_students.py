@@ -4,7 +4,7 @@ from app.models import StudentIn, StudentUpdate
 from fastapi.encoders import jsonable_encoder
 from pydantic.error_wrappers import ValidationError
 from sqlmodel import Session
-from tests.utils.students import get_student_in, create_random_student
+from tests.utils.students import create_random_student, get_student_in
 from tests.utils.users import create_random_user
 
 
