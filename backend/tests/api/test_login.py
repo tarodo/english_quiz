@@ -60,3 +60,15 @@ def test_get_token_by_admin(
     token = r.json()
     assert r.status_code == 400
     assert token["detail"]["err"] == str(LoginErrors.UserIsNotBot)
+
+
+def test_get_token_wrong_student(
+    client: TestClient, db: Session, bot_father_token_headers: dict[str, str]
+) -> None:
+    data = BotLoginPayload(tg_id="fake_acc").dict()
+    r = client.post(
+        "/login/access-token-bot", headers=bot_father_token_headers, json=data
+    )
+    token = r.json()
+    assert r.status_code == 400
+    assert token["detail"]["err"] == str(LoginErrors.IncorrectCredentials)

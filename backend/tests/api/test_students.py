@@ -20,7 +20,7 @@ def test_create_student_by_admin(
     assert student.tg_id == created_student["tg_id"]
 
 
-def test_create_student_by_user_for_itself(
+def test_create_student_by_user_by_itself(
     client: TestClient, user_token_headers: dict[str, str], db: Session
 ) -> None:
     user = create_random_user(db)
@@ -29,7 +29,7 @@ def test_create_student_by_user_for_itself(
     r = client.post(f"/students/", headers=user_token_headers, json=data)
     assert r.status_code == 400
     created_student = r.json()
-    assert created_student["detail"]["err"] == str(StudentErrors.UserIsNotAdmin)
+    assert created_student["detail"]["err"] == str(StudentErrors.NoRightsForUser)
 
 
 def test_create_student_same(

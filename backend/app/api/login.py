@@ -58,11 +58,7 @@ def login_access_token_by_bot(
     if not student:
         raise_400(LoginErrors.IncorrectCredentials)
 
-    user = student.user
-    if not user:
-        raise_400(LoginErrors.IncorrectCredentials)
-
     return {
-        "access_token": security.create_access_token(user.id),
+        "access_token": security.create_access_token(student.user.id),
         "token_type": "bearer",
     }
