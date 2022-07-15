@@ -1,4 +1,3 @@
-from app.models import Student
 from pydantic import constr
 from sqlalchemy import UniqueConstraint
 from sqlmodel import Field, Relationship, SQLModel
@@ -13,7 +12,7 @@ class TagBase(SQLModel):
 class Tag(TagBase, table=True):
     id: int = Field(primary_key=True)
 
-    student: Student = Relationship(back_populates="tags")
+    student: "Student" = Relationship(back_populates="tags")
 
 
 class TagIn(TagBase):

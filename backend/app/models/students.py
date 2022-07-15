@@ -1,6 +1,7 @@
 from app.models.users import User
 from pydantic import constr
 from sqlmodel import Field, Relationship, SQLModel
+from app.models.tags import Tag
 
 
 class StudentBase(SQLModel):
@@ -18,7 +19,7 @@ class Student(StudentBase, table=True):
     id: int = Field(primary_key=True)
     user: User = Relationship(back_populates="student")
 
-    tags: list["Tag"] | None = Relationship(back_populates="student")
+    tags: list[Tag] | None = Relationship(back_populates="student")
 
 
 class StudentIn(StudentBase):
@@ -27,6 +28,7 @@ class StudentIn(StudentBase):
 
 class StudentOut(StudentBase):
     id: int = Field(...)
+    tags: list[Tag]
 
 
 class StudentUpdate(SQLModel):
@@ -35,3 +37,6 @@ class StudentUpdate(SQLModel):
     last_name: str | None = None
     username: str | None = None
     user_id: int | None = None
+
+
+StudentOut.update_forward_refs()
